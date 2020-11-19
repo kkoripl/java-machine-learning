@@ -2,4 +2,6 @@
 /mlp_model
 
 /src/main/resources/datasets
+/src/main/resources/test
+/src/main/data
 /target
