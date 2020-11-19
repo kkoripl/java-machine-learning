@@ -28,6 +28,8 @@
         <commons-cli.version>1.4</commons-cli.version>
         <lombok.version>1.18.0</lombok.version>
         <commons-csv.version>1.8</commons-csv.version>
+        <opencv.version>4.3.0-2</opencv.version>
+        <tablesaw-core.version>0.38.1</tablesaw-core.version>
     </properties>
 
     <dependencies>
@@ -103,6 +105,18 @@
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-csv</artifactId>
             <version>${commons-csv.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.openpnp</groupId>
+            <artifactId>opencv</artifactId>
+            <version>${opencv.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>tech.tablesaw</groupId>
+            <artifactId>tablesaw-core</artifactId>
+            <version>${tablesaw-core.version}</version>
         </dependency>
     </dependencies>
 </project>
