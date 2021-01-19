@@ -7,30 +7,63 @@
     <groupId>org.example</groupId>
     <artifactId>java-machine-learning</artifactId>
     <version>1.0-SNAPSHOT</version>
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <configuration>
-                    <source>8</source>
-                    <target>8</target>
-                </configuration>
-            </plugin>
-        </plugins>
-    </build>
+
+    <parent>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <groupId>org.springframework.boot</groupId>
+        <version>2.2.6.RELEASE</version>
+    </parent>
 
     <properties>
+        <codehaus.mojo.version>1.6.0</codehaus.mojo.version>
+        <java.version>8</java.version> <!-- 11 is the lowest supported java version, however 12 and 13 should work fine -->
+        <jna.version>5.3.0</jna.version> <!-- Required to override default JNA version for Spring Boot parent-->
         <djl.version>0.6.0</djl.version>
         <djl-repository.version>0.4.1</djl-repository.version>
         <djl-mxnet.version>1.7.0-b</djl-mxnet.version>
+        <djl.starter.version>0.7</djl.starter.version>
         <log4j.version>2.12.1</log4j.version>
         <commons-cli.version>1.4</commons-cli.version>
         <lombok.version>1.18.0</lombok.version>
         <commons-csv.version>1.8</commons-csv.version>
         <opencv.version>4.3.0-2</opencv.version>
         <tablesaw-core.version>0.38.1</tablesaw-core.version>
+        <junit.version>4.12</junit.version>
     </properties>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>${java.version}</source>
+                    <target>${java.version}</target>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>exec-maven-plugin</artifactId>
+<!--                <version>${codehaus.mojo.version}</version>-->
+                <executions>
+                    <execution>
+                        <phase>validate</phase>
+                        <goals>
+                            <goal>exec</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <executable>ng</executable>
+                    <workingDirectory>src/main/resources/frontend/djl-app</workingDirectory>
+                    <arguments>
+                        <argument>build</argument>
+                    </arguments>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 
     <dependencies>
         <!-- Deep Java Library -->
@@ -51,7 +84,6 @@
             <groupId>ai.djl.mxnet</groupId>
             <artifactId>mxnet-engine</artifactId>
             <version>${djl.version}</version>
-            <scope>runtime</scope>
         </dependency>
 
         <dependency>
@@ -80,6 +112,26 @@
             <artifactId>basicdataset</artifactId>
             <version>${djl.version}</version>
         </dependency>
+
+        <!-- Spring Boot -->
+        <dependency>
+            <groupId>ai.djl.spring</groupId>
+            <artifactId>djl-spring-boot-starter-mxnet-linux-x86_64</artifactId>
+            <version>${djl.starter.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-configuration-processor</artifactId>
+            <version>2.2.6.RELEASE</version>
+            <optional>true</optional>
+        </dependency>
+
 
         <!-- dodatkowe -->
         <dependency>
@@ -117,6 +169,14 @@
             <groupId>tech.tablesaw</groupId>
             <artifactId>tablesaw-core</artifactId>
             <version>${tablesaw-core.version}</version>
+        </dependency>
+
+        <!-- TEST -->
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>${junit.version}</version>
+            <scope>test</scope>
         </dependency>
     </dependencies>
 </project>

@@ -3,5 +3,7 @@
 
 /src/main/resources/datasets
 /src/main/resources/test
+/src/main/resources/public
+/src/main/resources/frontend/djl-app/e2e
 /src/main/data
 /target

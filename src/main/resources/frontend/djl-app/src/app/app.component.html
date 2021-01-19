@@ -1,0 +1,14 @@
+<div>
+  <figure>
+    <img [src]="imageUrl" />
+  </figure>
+</div>
+<div>
+  <input
+    style="display: none"
+    type="file" (change)="changeFile($event)"
+    #fileInput>
+  <button (click)="fileInput.click()">Select File</button>
+  <button (click)="recognize()">Recognize!</button>
+  {{recognizedText}}
+</div>
