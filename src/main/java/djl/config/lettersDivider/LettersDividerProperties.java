@@ -10,7 +10,7 @@ public class LettersDividerProperties {
     LettersBinarizedProperties binarized;
     int joinedIAreaPx;
     String templateFilePath;
-    int templateSimilarityThreshold;
+    double templateSimilarityThreshold;
     int imgWidth;
     int imgHeight;
 }

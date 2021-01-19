@@ -1,6 +1,7 @@
 package djl.controller;
 
 import ai.djl.translate.TranslateException;
+import djl.handwritting.dto.HandwrittingClassificationDto;
 import djl.service.HandwrittingService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
@@ -19,7 +20,7 @@ public class HandwrittingController {
     private final HandwrittingService handwrittingService;
 
     @PostMapping(value = "/recognize", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<String> recognize(@RequestParam("image") MultipartFile image) throws TranslateException, IOException {
+    public ResponseEntity<HandwrittingClassificationDto> recognize(@RequestParam("image") MultipartFile image) throws TranslateException, IOException {
         return ResponseEntity.ok(handwrittingService.predict(image));
     }
 }

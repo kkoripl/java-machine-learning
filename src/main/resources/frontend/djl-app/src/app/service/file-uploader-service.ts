@@ -26,12 +26,11 @@ export class FileUploaderService {
         resolve(imageUrl);
       }
     });
-
   }
 
   upload(url: string): Promise<any> {
     var uploadImageData = new FormData();
     uploadImageData.append("image", this.selectedFile, this.selectedFile.name);
-    return this.http.post(url, uploadImageData, {responseType: 'text'}).toPromise();
+    return this.http.post(url, uploadImageData).toPromise();
   }
 }

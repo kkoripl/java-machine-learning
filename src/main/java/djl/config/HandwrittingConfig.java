@@ -7,6 +7,7 @@ import ai.djl.inference.Predictor;
 import ai.djl.modality.Classifications;
 import djl.config.lettersDivider.LettersDividerProperties;
 import djl.config.model.BaseMlpModelFeatures;
+import djl.objectDetection.ObjectDetectionService;
 import djl.service.HandwrittingService;
 import djl.service.LettersPreparationService;
 import djl.handwritting.service.LettersDivider;
@@ -73,6 +74,11 @@ public class HandwrittingConfig {
     @Bean
     public LettersPreparationService lettersPreparationService(LettersDivider lettersDivider) {
         return new LettersPreparationService(lettersDivider);
+    }
+
+    @Bean
+    public ObjectDetectionService objectDetectionService(){
+        return new ObjectDetectionService();
     }
 
     @Bean

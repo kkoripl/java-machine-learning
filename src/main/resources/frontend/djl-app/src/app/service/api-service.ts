@@ -12,7 +12,15 @@ export class ApiService {
     return this.apiBase() + '/handwritting';
   }
 
+  private objectDetectionBase(): string {
+    return this.apiBase() + '/objectDetection';
+  }
+
   handWritingRecognitionUrl(): string {
     return this.handwritingBase() + '/recognize';
+  }
+
+  detectObjectUrl(): string {
+    return this.objectDetectionBase() + "/detect";
   }
 }

@@ -15,8 +15,9 @@
     </parent>
 
     <properties>
+        <spring-boot.version>2.2.6.RELEASE</spring-boot.version>
         <codehaus.mojo.version>1.6.0</codehaus.mojo.version>
-        <java.version>8</java.version> <!-- 11 is the lowest supported java version, however 12 and 13 should work fine -->
+        <java.version>11</java.version> <!-- 11 is the lowest supported java version, however 12 and 13 should work fine -->
         <jna.version>5.3.0</jna.version> <!-- Required to override default JNA version for Spring Boot parent-->
         <djl.version>0.6.0</djl.version>
         <djl-repository.version>0.4.1</djl-repository.version>
@@ -26,8 +27,9 @@
         <commons-cli.version>1.4</commons-cli.version>
         <lombok.version>1.18.0</lombok.version>
         <commons-csv.version>1.8</commons-csv.version>
-        <opencv.version>4.3.0-2</opencv.version>
+        <opencv.version>4.3.0-3</opencv.version>
         <tablesaw-core.version>0.38.1</tablesaw-core.version>
+        <dozer.version>5.5.1</dozer.version>
         <junit.version>4.12</junit.version>
     </properties>
 
@@ -45,7 +47,6 @@
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>exec-maven-plugin</artifactId>
-<!--                <version>${codehaus.mojo.version}</version>-->
                 <executions>
                     <execution>
                         <phase>validate</phase>
@@ -116,7 +117,7 @@
         <!-- Spring Boot -->
         <dependency>
             <groupId>ai.djl.spring</groupId>
-            <artifactId>djl-spring-boot-starter-mxnet-linux-x86_64</artifactId>
+            <artifactId>djl-spring-boot-starter-autoconfigure</artifactId>
             <version>${djl.starter.version}</version>
         </dependency>
 
@@ -128,7 +129,7 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-configuration-processor</artifactId>
-            <version>2.2.6.RELEASE</version>
+            <version>${spring-boot.version}</version>
             <optional>true</optional>
         </dependency>
 
@@ -169,6 +170,12 @@
             <groupId>tech.tablesaw</groupId>
             <artifactId>tablesaw-core</artifactId>
             <version>${tablesaw-core.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>net.sf.dozer</groupId>
+            <artifactId>dozer</artifactId>
+            <version>${dozer.version}</version>
         </dependency>
 
         <!-- TEST -->

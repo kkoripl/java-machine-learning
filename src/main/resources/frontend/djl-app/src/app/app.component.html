@@ -10,5 +10,14 @@
     #fileInput>
   <button (click)="fileInput.click()">Select File</button>
   <button (click)="recognize()">Recognize!</button>
+  <button (click)="detect()">Detect objects!</button>
+</div>
+<div>
   {{recognizedText}}
+</div>
+<div>
+  {{probabilities}}
+</div>
+<div>
+  {{classes}}
 </div>

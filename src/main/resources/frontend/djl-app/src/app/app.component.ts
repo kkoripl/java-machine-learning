@@ -11,6 +11,8 @@ import {ApiService} from "./service/api-service";
 export class AppComponent implements OnInit {
   title = 'djl-app';
   recognizedText: string;
+  probabilities: number[];
+  classes: string[];
   imageUrl: string
   fileUploaderService: FileUploaderService;
   apiService: ApiService;
@@ -32,7 +34,18 @@ export class AppComponent implements OnInit {
   recognize() {
     this.fileUploaderService.upload(this.apiService.handWritingRecognitionUrl())
       .then((response) => {
-          this.recognizedText = response;
+          this.recognizedText = response.text;
+          this.probabilities = response.probabilities;
+          this.classes = response.classes;
+      })
+  }
+
+  detect() {
+    this.fileUploaderService.upload(this.apiService.detectObjectUrl())
+      .then((response) => {
+        this.imageUrl = 'data:image/jpeg;base64,' + response.imgBytes;
+        this.probabilities = response.probabilities;
+        this.classes = response.classes;
       })
   }
 }
