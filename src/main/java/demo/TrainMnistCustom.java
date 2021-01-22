@@ -18,6 +18,7 @@ import ai.djl.training.evaluator.Accuracy;
 import ai.djl.training.listener.*;
 import ai.djl.training.loss.Loss;
 import ai.djl.translate.Pipeline;
+import ai.djl.translate.TranslateException;
 import djl.utils.Arguments;
 import org.apache.commons.cli.ParseException;
 import demo.utils.ImageProperties;
@@ -34,13 +35,13 @@ public final class TrainMnistCustom {
     private static final int EPOCHS = 2; // liczba epok uczenia
     private static final int BATCH_SIZE = 32; // liczba obrazków w batchu uczenia
 
-    public static void main(String[] args) throws IOException, ParseException {
+    public static void main(String[] args) throws IOException, ParseException, TranslateException {
         Arguments arguments = Arguments.parseArgs(args);
         ImageProperties imageProperties = new ImageProperties(MNIST_IMG_WIDTH, MNIST_IMG_HEIGHT, MNIST_IMG_CHANNELS);
         buildModel(arguments, imageProperties);
     }
 
-    private static void buildModel(Arguments arguments, ImageProperties imageProperties) throws IOException {
+    private static void buildModel(Arguments arguments, ImageProperties imageProperties) throws IOException, TranslateException {
         // folder z obrazkami musi być pod ścieżką: root/klasa/obrazki - inaczej powie, ze nie widzi folderu ni obrazków - nazwa podfolderu nie może zaczynać się od kropki!
         ImageFolder trainDataset = prepareDataset(arguments.getTrainDatasetPath(), arguments.getBatchSize());
 
@@ -63,7 +64,7 @@ public final class TrainMnistCustom {
         System.out.println(trainer.getTrainingResult().getEvaluations());
     }
 
-    private static ImageFolder prepareDataset(String datasetPath, int batchSize) throws IOException {
+    private static ImageFolder prepareDataset(String datasetPath, int batchSize) throws IOException, TranslateException {
         ImageFolder dataset = ImageFolder.builder()
                 .optLimit(Long.MAX_VALUE)
                 .setRepository(Repository.newInstance("mnistCustom", Paths.get(datasetPath)))

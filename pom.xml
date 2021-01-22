@@ -19,9 +19,10 @@
         <codehaus.mojo.version>1.6.0</codehaus.mojo.version>
         <java.version>11</java.version> <!-- 11 is the lowest supported java version, however 12 and 13 should work fine -->
         <jna.version>5.3.0</jna.version> <!-- Required to override default JNA version for Spring Boot parent-->
-        <djl.version>0.6.0</djl.version>
+        <djl.version>0.9.0</djl.version>
         <djl-repository.version>0.4.1</djl-repository.version>
-        <djl-mxnet.version>1.7.0-b</djl-mxnet.version>
+        <djl-mxnet-native.version>1.7.0-b</djl-mxnet-native.version>
+        <djl-tensorflow-native.version>2.3.1</djl-tensorflow-native.version>
         <djl.starter.version>0.7</djl.starter.version>
         <log4j.version>2.12.1</log4j.version>
         <commons-cli.version>1.4</commons-cli.version>
@@ -80,10 +81,38 @@
             <version>${djl-repository.version}</version>
         </dependency>
 
-        <!-- DJL modele -->
+        <!-- DJL silniki -->
+        <dependency>  <!-- potrzebny zawsze native do działania engine'a -->
+            <groupId>ai.djl.mxnet</groupId>
+            <artifactId>mxnet-native-auto</artifactId>
+            <version>${djl-mxnet-native.version}</version>
+            <scope>runtime</scope>
+        </dependency>
+
         <dependency>
             <groupId>ai.djl.mxnet</groupId>
             <artifactId>mxnet-engine</artifactId>
+            <version>${djl.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>ai.djl.tensorflow</groupId>
+            <artifactId>tensorflow-native-auto</artifactId>
+            <version>${djl-tensorflow-native.version}</version>
+            <scope>runtime</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>ai.djl.tensorflow</groupId>
+            <artifactId>tensorflow-engine</artifactId>
+            <version>${djl.version}</version>
+            <scope>runtime</scope>
+        </dependency>
+
+        <!-- DJL modele -->
+        <dependency>
+            <groupId>ai.djl</groupId>
+            <artifactId>model-zoo</artifactId>
             <version>${djl.version}</version>
         </dependency>
 
@@ -94,17 +123,9 @@
         </dependency>
 
         <dependency>
-            <groupId>ai.djl</groupId>
-            <artifactId>model-zoo</artifactId>
+            <groupId>ai.djl.tensorflow</groupId>
+            <artifactId>tensorflow-model-zoo</artifactId>
             <version>${djl.version}</version>
-        </dependency>
-
-        <dependency>
-            <!-- pomaga poprawić błąd:No deep learning engine found exception. -->
-            <groupId>ai.djl.mxnet</groupId>
-            <artifactId>mxnet-native-auto</artifactId>
-            <version>${djl-mxnet.version}</version>
-            <scope>runtime</scope>
         </dependency>
 
         <!-- Basic datasets -->
@@ -115,6 +136,7 @@
         </dependency>
 
         <!-- Spring Boot -->
+        <!-- ściąga djl.api w wersji startera -->
         <dependency>
             <groupId>ai.djl.spring</groupId>
             <artifactId>djl-spring-boot-starter-autoconfigure</artifactId>

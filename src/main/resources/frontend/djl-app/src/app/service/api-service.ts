@@ -23,4 +23,8 @@ export class ApiService {
   detectObjectUrl(): string {
     return this.objectDetectionBase() + "/detect";
   }
+
+  detectObjectExternalUrl(): string {
+    return this.objectDetectionBase() + "/detect-external";
+  }
 }

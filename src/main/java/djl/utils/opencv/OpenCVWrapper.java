@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -32,7 +33,6 @@ public class OpenCVWrapper {
     }
 
     public void resizeImagesAndFillWithColor(String datasetPath, Size dimension, Scalar color) throws IOException {
-        System.out.println("Resizing");
         Stream<Path> walk = Files.walk(Paths.get(datasetPath));
         walk.filter(Files::isRegularFile)
                 .forEach(path -> {
@@ -73,7 +73,6 @@ public class OpenCVWrapper {
     }
 
     public void cleanImages(String datasetPath, String notWantedPartPath, double similarityThreshold) throws IOException {
-        System.out.println("Cleaning");
         Stream<Path> walk = Files.walk(Paths.get(datasetPath));
         walk.filter(Files::isRegularFile)
                 .forEach(path -> {

@@ -4,12 +4,9 @@ import ai.djl.inference.Predictor;
 import ai.djl.modality.Classifications;
 import ai.djl.modality.cv.BufferedImageFactory;
 import ai.djl.modality.cv.Image;
-import ai.djl.modality.cv.ImageFactory;
 import ai.djl.modality.cv.output.DetectedObjects;
-import ai.djl.repository.Artifact;
 import ai.djl.translate.TranslateException;
 import djl.objectDetection.dto.ObjectDetectionDto;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
@@ -22,16 +19,28 @@ import java.util.function.Supplier;
 
 public class ObjectDetectionService {
 
-    @Resource
-    private Supplier<Predictor<Image, DetectedObjects>> predictorProvider;
+    @Resource(name="predictorProvider")
+    private Supplier<Predictor<Image, DetectedObjects>> autoconfigPredictorProvider;
+    private final Predictor<Image, DetectedObjects> externalPredictor;
 
-    public ObjectDetectionDto detectObjects(MultipartFile file) throws TranslateException, IOException {
-        BufferedImage image = bytes2BuferedImage(file.getBytes());
-        Image img = BufferedImageFactory.getInstance().fromImage(image);
-        DetectedObjects detectionResult  = predictorProvider.get().predict(img);
+    public ObjectDetectionService(Predictor<Image, DetectedObjects> externalPredictor) {
+        this.externalPredictor = externalPredictor;
+    }
+
+    public ObjectDetectionDto autoConfigDetectObjects(MultipartFile file) throws TranslateException, IOException {
+        return detectObjects(file, autoconfigPredictorProvider.get());
+    }
+
+    public ObjectDetectionDto externalDetectObjects(MultipartFile file) throws IOException, TranslateException {
+        return detectObjects(file, externalPredictor);
+    }
+
+    private ObjectDetectionDto detectObjects(MultipartFile imageFile, Predictor<Image, DetectedObjects> predictor) throws TranslateException, IOException {
+        BufferedImage bfImage = bytes2BufferedImage(imageFile.getBytes());
+        Image img = BufferedImageFactory.getInstance().fromImage(bfImage);
+        DetectedObjects detectionResult = predictor.predict(img);
         ObjectDetectionDto results = prepareResults(detectionResult);
-        results.setImgBytes(bufferedImage2Bytes(drawBoundingBoxImage(img, detectionResult), file.getContentType()));
-
+        results.setImgBytes(bufferedImage2Bytes(drawBoundingBoxImage(img, detectionResult), imageFile.getContentType()));
         return results;
     }
 
@@ -50,8 +59,9 @@ public class ObjectDetectionService {
         return (BufferedImage) newImg.getWrappedImage();
     }
 
-    private BufferedImage bytes2BuferedImage(byte[] bytes) throws IOException {
-        return ImageIO.read(new ByteArrayInputStream(bytes));
+    private BufferedImage bytes2BufferedImage(byte[] bytes) throws IOException {
+        BufferedImage originalBf = ImageIO.read(new ByteArrayInputStream(bytes));
+        return copyToWorkWithOpenJdk(originalBf);
 
     }
 

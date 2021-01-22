@@ -7,6 +7,8 @@ import ai.djl.ndarray.NDList;
 import ai.djl.ndarray.NDManager;
 import ai.djl.training.dataset.RandomAccessDataset;
 import ai.djl.training.dataset.Record;
+import ai.djl.translate.TranslateException;
+import ai.djl.util.Progress;
 import djl.utils.tablesaw.TablesawWrapper;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -66,6 +68,12 @@ public class ImageCsvDataset extends RandomAccessDataset {
     private String getLabel(String labCol, long idx) {
         return tablesawWrapper.getStringValueByIndex(records, labCol, Math.toIntExact(idx));
     }
+
+    @Override
+    public void prepare() throws IOException, TranslateException {}
+
+    @Override
+    public void prepare(Progress progress) throws IOException, TranslateException { }
 
     @Getter
     public static final class Builder extends BaseBuilder<Builder> {

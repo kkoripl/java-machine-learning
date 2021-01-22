@@ -3,6 +3,7 @@ package djl.scripts.training;
 import ai.djl.Device;
 import ai.djl.Model;
 import ai.djl.basicdataset.ImageFolder;
+//import ai.djl.basicmodelzoo.basic.Mlp;
 import ai.djl.basicmodelzoo.basic.Mlp;
 import ai.djl.metric.Metrics;
 import ai.djl.modality.cv.Image;
@@ -15,6 +16,7 @@ import ai.djl.training.*;
 import ai.djl.training.evaluator.Accuracy;
 import ai.djl.training.listener.*;
 import ai.djl.training.loss.Loss;
+import ai.djl.translate.TranslateException;
 import djl.utils.TrainArguments;
 
 import java.io.IOException;
@@ -38,7 +40,7 @@ public class Training {
 
     }
 
-    private static ImageFolder prepareDataset(String datasetPath, int batchSize, String repositoryName) throws IOException {
+    private static ImageFolder prepareDataset(String datasetPath, int batchSize, String repositoryName) throws IOException, TranslateException {
         ImageFolder dataset = ImageFolder.builder()
                 .optLimit(Long.MAX_VALUE)
                 .optFlag(Image.Flag.GRAYSCALE)
@@ -52,7 +54,7 @@ public class Training {
 
 
     private static Block buildMlp(int inputNeurons, int outputNeurons, int[] hiddenLayersNeurons, Function<NDList, NDList> activation) {
-        return new Mlp(inputNeurons,
+                return new Mlp(inputNeurons,
                        outputNeurons,
                        hiddenLayersNeurons,
                        activation);

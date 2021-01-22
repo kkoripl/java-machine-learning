@@ -92,7 +92,7 @@ public final class TrainMnist {
         System.out.println(classifications.toString());
     }
 
-    public static TrainingResult runExample(String[] args) throws IOException, ParseException {
+    public static TrainingResult runExample(String[] args) throws IOException, ParseException, TranslateException {
         Arguments arguments = Arguments.parseArgs(args);
 
         // Construct neural network

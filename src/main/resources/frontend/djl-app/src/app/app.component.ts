@@ -48,4 +48,13 @@ export class AppComponent implements OnInit {
         this.classes = response.classes;
       })
   }
+
+  detectExternal() {
+    this.fileUploaderService.upload(this.apiService.detectObjectExternalUrl())
+      .then((response) => {
+        this.imageUrl = 'data:image/jpeg;base64,' + response.imgBytes;
+        this.probabilities = response.probabilities;
+        this.classes = response.classes;
+      })
+  }
 }

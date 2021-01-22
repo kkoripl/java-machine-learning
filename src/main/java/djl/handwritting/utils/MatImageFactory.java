@@ -2,6 +2,7 @@ package djl.handwritting.utils;
 
 import ai.djl.modality.cv.Image;
 import ai.djl.modality.cv.ImageFactory;
+import ai.djl.ndarray.NDArray;
 import djl.utils.opencv.OpenCVWrapper;
 
 import java.io.InputStream;
@@ -27,6 +28,11 @@ public class MatImageFactory extends ImageFactory {
 
     @Override
     public Image fromImage(Object image) {
+        return null;
+    }
+
+    @Override
+    public Image fromNDArray(NDArray ndArray) {
         return null;
     }
 }
